@@ -91,7 +91,27 @@ namespace E_Commerce2IlRitorno
                 throw new Exception("Impossibile aggiungere, dimensione massima carrello raggiunta");
             }
 
-            if (p != null)
+            if (p.GetType()==typeof(ProdottoAlimentare))
+            {
+                try
+                {
+                    ProdottoAlimentare r = (ProdottoAlimentare)p;
+
+                    if (r.Data > DateTime.Today)
+                    {
+                        if (p != null)
+                        {
+                            _prod[currentLenght] = p;
+                            ++currentLenght;
+                        }
+                    }
+                }
+                catch
+                {
+                    throw new Exception("Errore impossibile");
+                }                
+            } 
+            else if (p != null)
             {
                 _prod[currentLenght] = p;
                 ++currentLenght;
