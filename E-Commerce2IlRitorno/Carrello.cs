@@ -99,11 +99,8 @@ namespace E_Commerce2IlRitorno
 
                     if (r.Data > DateTime.Today)
                     {
-                        if (p != null)
-                        {
-                            _prod[currentLenght] = p;
-                            ++currentLenght;
-                        }
+                        _prod[currentLenght] = p;
+                        ++currentLenght;
                     }
                 }
                 catch
