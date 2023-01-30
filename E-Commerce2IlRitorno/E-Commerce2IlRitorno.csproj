@@ -54,6 +54,7 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="Prodotto.cs" />
+    <Compile Include="ProdottoAlimentare.cs" />
     <Compile Include="ProdottoSpecifico.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

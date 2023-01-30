@@ -11,7 +11,7 @@ namespace E_Commerce2IlRitorno
         //attributi
         private const int MAXCARR = 999;
         private string _id;
-        private int currentLenght;
+        public int currentLenght;
         private Prodotto[] _prod = new Prodotto[MAXCARR];
 
         //set e get mediante properties

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace E_Commerce2IlRitorno
 {
-    public class ProdottoSpecifico : Prodotto
+    public class ProdottoElettronico : Prodotto
     {
         //attributi
         private string _codice;
@@ -28,13 +28,22 @@ namespace E_Commerce2IlRitorno
         }
 
         //costruttori
-        public ProdottoSpecifico(string codice, string id, string nome, string prod, float prezzo) : base(id, nome, prod, prezzo)
+        public ProdottoElettronico(string codice, string id, string nome, string prod, float prezzo) : base(id, nome, prod, prezzo)
         {
             Codice = codice;
         }
 
         //metodi
-
-        //sconto 5%
+        public double getSconto()
+        {
+            if (DateTime.Today.DayOfWeek == DayOfWeek.Monday)
+            {
+                return this.Prezzo * 0.95;
+            }
+            else
+            {
+                return this.Prezzo;
+            }
+        }
     }
 }
