@@ -48,7 +48,7 @@ namespace E_Commerce2IlRitorno
 
         public override string ToString()
         {
-            return Id + ";" + Nome + ";" + Descrizione + ";" + Descrizione + ";" + Prezzo + ";" + Codice;
+            return base.ToString() + Codice;
         }
     }
 }

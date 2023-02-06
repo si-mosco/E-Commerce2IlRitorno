@@ -125,7 +125,7 @@ namespace E_Commerce2IlRitorno
         {
             return new Prodotto(this);
         }
-
+        
 
         //Equals
         public bool Equals(Prodotto p)

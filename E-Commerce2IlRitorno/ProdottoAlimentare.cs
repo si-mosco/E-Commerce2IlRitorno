@@ -76,7 +76,7 @@ namespace E_Commerce2IlRitorno
             for (int i = 0; i < Ingredienti.Length; i++)
                 ingredientino += $"{Ingredienti[i]}, ";
 
-            return Id + ";" + Nome + ";" + Descrizione + ";"+ Descrizione + ";" + Prezzo + ";" + ingredientino + "-" + Data;
+            return base.ToString() + ingredientino + "-" + Data;
         }
     }
 }
