@@ -28,13 +28,13 @@ namespace E_Commerce2IlRitorno
         }
 
         //costruttori
-        public ProdottoElettronico(string codice, string id, string nome, string prod, float prezzo) : base(id, nome, prod, prezzo)
+        public ProdottoElettronico(string codice, string id, string nome, string prod, string descrizione, float prezzo) : base(id, nome, prod, descrizione, prezzo)
         {
             Codice = codice;
         }
 
         //metodi
-        public double getSconto()
+        public override double getSconto()
         {
             if (DateTime.Today.DayOfWeek == DayOfWeek.Monday)
             {
@@ -44,6 +44,11 @@ namespace E_Commerce2IlRitorno
             {
                 return this.Prezzo;
             }
+        }
+
+        public override string ToString()
+        {
+            return Id + ";" + Nome + ";" + Descrizione + ";" + Descrizione + ";" + Prezzo + ";" + Codice;
         }
     }
 }

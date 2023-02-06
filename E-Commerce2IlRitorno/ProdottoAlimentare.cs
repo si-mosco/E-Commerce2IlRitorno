@@ -49,14 +49,14 @@ namespace E_Commerce2IlRitorno
         }
 
         //costruttori
-        public ProdottoAlimentare(string[] ingredienti,DateTime datascadenza, string id, string nome, string prod, float prezzo) : base(id, nome, prod, prezzo)
+        public ProdottoAlimentare(string[] ingredienti,DateTime datascadenza, string id, string nome, string prod, string descrizione, float prezzo) : base(id, nome, prod, descrizione, prezzo)
         {
             Ingredienti = ingredienti;
             Data = datascadenza;
         }
 
         //metodi
-        public double getSconto()
+        public override double getSconto()
         {
             var today = DateTime.Today;
             var diff= today-Data;
@@ -69,6 +69,14 @@ namespace E_Commerce2IlRitorno
             {
                 return this.Prezzo;
             }
+        }
+        public override string ToString()
+        {
+            string ingredientino = "";
+            for (int i = 0; i < Ingredienti.Length; i++)
+                ingredientino += $"{Ingredienti[i]}, ";
+
+            return Id + ";" + Nome + ";" + Descrizione + ";"+ Descrizione + ";" + Prezzo + ";" + ingredientino + "-" + Data;
         }
     }
 }

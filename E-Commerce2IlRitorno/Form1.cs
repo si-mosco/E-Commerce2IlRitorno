@@ -12,9 +12,13 @@ namespace E_Commerce2IlRitorno
 {
     public partial class Form1 : Form
     {
+        float prezzino = 0;
+        double prezzinoscontino = 0;
+
+
         int contRapid = 0;
         bool firsTime = true;
-        ProdottoElettronico[] prod = new ProdottoElettronico[999];
+        Prodotto[] prod = new Prodotto[999];
         Carrello carrello = new Carrello("CARRELLO1");
         Random rand = new Random();
 
@@ -31,13 +35,22 @@ namespace E_Commerce2IlRitorno
                 listView1.FullRowSelect = true;
                 firsTime = false;
 
-                listView1.Columns.Add("ID", 60);
-                listView1.Columns.Add("NOME", 80);
-                listView1.Columns.Add("PRODUTTORE", 80);
-                listView1.Columns.Add("DESCRIZIONE", 220);
-                listView1.Columns.Add("PREZZO", 50);
-                listView1.Columns.Add("QTA", 40);
+                listView1.Columns.Add("ID", 30);
+                listView1.Columns.Add("NOME", 50);
+                listView1.Columns.Add("PRODUTTORE", 50);
+                listView1.Columns.Add("DESCRIZIONE", 100);
+                listView1.Columns.Add("PREZZO", 30);
+                listView1.Columns.Add("EXTRA", 100);
+
+                label9.Visible = false;
+                label10.Visible = false;
+                textBox6.Visible = false;
+                monthCalendar1.Visible = false;
+
+                label7.Text = $"PREZZO: {prezzino}";
+                label8.Text = $"PREZZO SCONTATO: {prezzinoscontino}";
             }
+
             StampaElementi(listView1, carrello);
         }
 
@@ -53,7 +66,7 @@ namespace E_Commerce2IlRitorno
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (textBox1.Text != String.Empty && textBox2.Text != String.Empty && textBox3.Text != String.Empty && textBox4.Text != String.Empty && textBox5.Text != String.Empty)
+            if (textBox1.Text != String.Empty && textBox2.Text != String.Empty && textBox3.Text != String.Empty && textBox4.Text != String.Empty && textBox5.Text != String.Empty && comboBox1.Text != null)
             {
                 try
                 {
@@ -65,7 +78,52 @@ namespace E_Commerce2IlRitorno
                 }
 
 
-                prod[contRapid] = new ProdottoElettronico($"{textBox1.Text}", $"{textBox2.Text}", $"{textBox3.Text}", $"{textBox4.Text}", float.Parse(textBox5.Text));
+                if (Convert.ToString(comboBox1.SelectedItem) == "Alimentare" && textBox6.Text!= String.Empty)
+                {
+                    string[] Ingredienti;
+                    Ingredienti=textBox6.Text.Split(',');
+
+                    DateTime data = monthCalendar1.SelectionRange.Start;
+
+                    prod[contRapid] = new ProdottoAlimentare(Ingredienti, data, $"{textBox1.Text}", $"{textBox2.Text}", $"{textBox3.Text}", $"{textBox4.Text}", float.Parse(textBox5.Text));
+
+                    prezzino += prod[contRapid].Prezzo;
+                    prezzinoscontino += prod[contRapid].getSconto();
+                }
+
+                if (Convert.ToString(comboBox1.SelectedItem) == "Elettronico" && textBox6.Text != String.Empty)
+                {
+                    string codice= textBox6.Text;
+
+                    prod[contRapid] = new ProdottoElettronico(codice, $"{textBox1.Text}", $"{textBox2.Text}", $"{textBox3.Text}", $"{textBox4.Text}", float.Parse(textBox5.Text));
+
+                    prezzino += prod[contRapid].Prezzo;
+                    prezzinoscontino += prod[contRapid].getSconto();
+                }
+
+                if (Convert.ToString(comboBox1.SelectedItem) == "Cancelleria (Penna)" && textBox6.Text != String.Empty)
+                {
+                    string funz = textBox6.Text;
+
+                    prod[contRapid] = new ProdottoElettronico(funz, $"{textBox1.Text}", $"{textBox2.Text}", $"{textBox3.Text}", $"{textBox4.Text}", float.Parse(textBox5.Text));
+
+                    prezzino += prod[contRapid].Prezzo;
+                    prezzinoscontino += prod[contRapid].getSconto();
+                }
+
+                if (Convert.ToString(comboBox1.SelectedItem) == "Cancelleria (Foglio di Carta)" && textBox6.Text != String.Empty)
+                {
+                    string gramm = textBox6.Text;
+
+                    prod[contRapid] = new ProdottoElettronico(gramm, $"{textBox1.Text}", $"{textBox2.Text}", $"{textBox3.Text}", $"{textBox4.Text}", float.Parse(textBox5.Text));
+
+                    prezzino += prod[contRapid].Prezzo;
+                    prezzinoscontino += prod[contRapid].getSconto();
+                }
+
+                label7.Text = $"PREZZO: {prezzino}";
+                label8.Text = $"PREZZO SCONTATO: {prezzinoscontino}";
+
                 carrello.Aggiungi(prod[contRapid]);
                 contRapid++;
             }
@@ -73,6 +131,9 @@ namespace E_Commerce2IlRitorno
             {
                 MessageBox.Show("Inserire prima i valori");
             }
+
+
+
             Form1_Load(sender, e);
         }
 
@@ -105,15 +166,59 @@ namespace E_Commerce2IlRitorno
         {
             listino.Items.Clear();
             Prodotto[] prod = carr.Prodotti;
-            int i = 0;
-            while (prod[i] != null)
+
+            for (int i=0; i<carr.currentLenght; i++)
             {
-                int qta = carr.currentLenght;
-                string[] temp = new string[] { prod[i].Id, prod[i].Nome, prod[i].Produttore, prod[i].Descrizione, $"{prod[i].Prezzo}", $"{qta}" };
+                string[] temp = prod[i].ToString().Split(';');
                 ListViewItem item = new ListViewItem(temp);
                 listino.Items.Add(item);
-                i++;
             }
+        }
+
+        private void label7_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (Convert.ToString(comboBox1.SelectedItem) == "Alimentare")
+            {
+                label9.Visible = true;
+                label9.Text = "INGREDIENTI (..., ..., etc.)";
+                textBox6.Visible = true;
+
+                label10.Visible = true;
+                monthCalendar1.Visible = true;
+            }
+            if (Convert.ToString(comboBox1.SelectedItem) == "Elettronico")
+            {
+                label9.Visible = true;
+                label9.Text = "CODICE SPECIFICO";
+                label10.Visible = false;
+                monthCalendar1.Visible = false;
+
+                textBox6.Visible = true;
+            }
+            if (Convert.ToString(comboBox1.SelectedItem) == "Cancelleria (Penna)")
+            {
+                label9.Visible = true;
+                label9.Text = "MODALITA' DI FUNZIONAMENTO";
+                label10.Visible = false;
+                monthCalendar1.Visible = false;
+
+                textBox6.Visible = true;
+            }
+            if (Convert.ToString(comboBox1.SelectedItem) == "Cancelleria (Foglio di Carta)")
+            {
+                label9.Visible = true;
+                label9.Text = "GRAMMATURA";
+                label10.Visible = false;
+                monthCalendar1.Visible = false;
+
+                textBox6.Visible = true;
+            }
+
         }
     }
 }

@@ -27,9 +27,14 @@ namespace E_Commerce2IlRitorno
         }
 
         //costruttore
-        public Penna(string modalita, string id, string nome, string prod, float prezzo) : base(id, nome, prod, prezzo)
+        public Penna(string modalita, string id, string nome, string prod, string descrizione, float prezzo) : base(id, nome, prod, descrizione, prezzo)
         {
             Modalita = modalita;
+        }
+
+        public override string ToString()
+        {
+            return Id + ";" + Nome + ";" + Descrizione + ";" + Descrizione + ";" + Prezzo + ";" + Modalita;
         }
     }
 }

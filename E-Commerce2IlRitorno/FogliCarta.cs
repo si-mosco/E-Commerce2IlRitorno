@@ -27,9 +27,14 @@ namespace E_Commerce2IlRitorno
         }
 
         //costruttore
-        public FogliCarta(float grammatura, string id, string nome, string prod, float prezzo) : base(id, nome, prod, prezzo)
+        public FogliCarta(float grammatura, string id, string nome, string prod, string descrizione, float prezzo) : base(id, nome, prod, descrizione, prezzo)
         {
             Grammatura = grammatura;
+        }
+
+        public override string ToString()
+        {
+            return Id + ";" + Nome + ";" + Descrizione + ";" + Descrizione + ";" + Prezzo + ";" + Grammatura;
         }
     }
 }

@@ -138,10 +138,14 @@ namespace E_Commerce2IlRitorno
         }
 
         //ToString
-        public override string ToString()
+        public virtual string ToString()
         {
             return Id + ";" + Nome + ";" + Descrizione + ";" + Prezzo;
         }
 
+        public virtual double getSconto()
+        {
+            return this.Prezzo;
+        }
     }
 }

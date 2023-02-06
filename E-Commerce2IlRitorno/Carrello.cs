@@ -108,6 +108,48 @@ namespace E_Commerce2IlRitorno
                     throw new Exception("Errore impossibile");
                 }                
             } 
+            else if (p.GetType() == typeof(ProdottoElettronico))
+            {
+                try
+                {
+                    ProdottoElettronico r = (ProdottoElettronico)p;
+
+                    _prod[currentLenght] = p;
+                    ++currentLenght;
+                }
+                catch
+                {
+                    throw new Exception("Errore impossibile");
+                }
+            }
+            else if (p.GetType() == typeof(Penna))
+            {
+                try
+                {
+                    Penna r = (Penna)p;
+
+                    _prod[currentLenght] = p;
+                    ++currentLenght;
+                }
+                catch
+                {
+                    throw new Exception("Errore impossibile");
+                }
+            }
+            else if (p.GetType() == typeof(FogliCarta))
+            {
+                try
+                {
+                    FogliCarta r = (FogliCarta)p;
+
+                    _prod[currentLenght] = p;
+                    ++currentLenght;
+                }
+                catch
+                {
+                    throw new Exception("Errore impossibile");
+                }
+            }
             else if (p != null)
             {
                 _prod[currentLenght] = p;

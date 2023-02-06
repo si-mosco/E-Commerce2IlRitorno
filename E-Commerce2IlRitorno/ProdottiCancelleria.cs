@@ -9,12 +9,12 @@ namespace E_Commerce2IlRitorno
     public abstract class ProdottiCancelleria: Prodotto
     {
         //costruttori
-        public ProdottiCancelleria(string id, string nome, string prod, float prezzo) : base(id, nome, prod, prezzo)
+        public ProdottiCancelleria(string id, string nome, string prod, string descrizione, float prezzo) : base(id, nome, prod, descrizione, prezzo)
         {
         }
 
         //metodi
-        public double getSconto()
+        public override double getSconto()
         {
             var today = DateTime.Today;
 
