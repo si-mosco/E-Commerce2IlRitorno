@@ -16,11 +16,11 @@ namespace E_Commerce2IlRitorno
         double prezzinoscontino = 0;
 
 
-        int contRapid = 0;
+        //int contRapid = 0;
         bool firsTime = true;
-        Prodotto[] prod = new Prodotto[999];
+        List<Prodotto> lista = new List<Prodotto>();
         Carrello carrello = new Carrello("CARRELLO1");
-        Random rand = new Random();
+
 
         public Form1()
         {
@@ -66,7 +66,7 @@ namespace E_Commerce2IlRitorno
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (textBox1.Text != String.Empty && textBox2.Text != String.Empty && textBox3.Text != String.Empty && textBox4.Text != String.Empty && textBox5.Text != String.Empty && comboBox1.Text != null)
+            if (textBox1.Text != String.Empty && textBox2.Text != String.Empty && textBox3.Text != String.Empty && textBox4.Text != String.Empty && textBox5.Text != String.Empty && comboBox1.Text != null && comboBox1.SelectedItem!=null)
             {
                 try
                 {
@@ -85,47 +85,56 @@ namespace E_Commerce2IlRitorno
 
                     DateTime data = monthCalendar1.SelectionRange.Start;
 
-                    prod[contRapid] = new ProdottoAlimentare(Ingredienti, data, $"{textBox1.Text}", $"{textBox2.Text}", $"{textBox3.Text}", $"{textBox4.Text}", float.Parse(textBox5.Text));
+                    Prodotto p= new ProdottoAlimentare(Ingredienti, data, $"{textBox1.Text}", $"{textBox2.Text}", $"{textBox3.Text}", $"{textBox4.Text}", float.Parse(textBox5.Text));
+                    lista.Add(p); 
 
-                    prezzino += prod[contRapid].Prezzo;
-                    prezzinoscontino += prod[contRapid].getSconto();
+                    prezzino += p.Prezzo;
+                    prezzinoscontino += p.getSconto();
+
+                    carrello.Aggiungi(p);
                 }
 
                 if (Convert.ToString(comboBox1.SelectedItem) == "Elettronico" && textBox6.Text != String.Empty)
                 {
                     string codice= textBox6.Text;
 
-                    prod[contRapid] = new ProdottoElettronico(codice, $"{textBox1.Text}", $"{textBox2.Text}", $"{textBox3.Text}", $"{textBox4.Text}", float.Parse(textBox5.Text));
+                    Prodotto p=new ProdottoElettronico(codice, $"{textBox1.Text}", $"{textBox2.Text}", $"{textBox3.Text}", $"{textBox4.Text}", float.Parse(textBox5.Text));
+                    lista.Add(p);
 
-                    prezzino += prod[contRapid].Prezzo;
-                    prezzinoscontino += prod[contRapid].getSconto();
+                    prezzino += p.Prezzo;
+                    prezzinoscontino += p.getSconto();
+
+                    carrello.Aggiungi(p);
                 }
 
                 if (Convert.ToString(comboBox1.SelectedItem) == "Cancelleria (Penna)" && textBox6.Text != String.Empty)
                 {
                     string funz = textBox6.Text;
 
-                    prod[contRapid] = new ProdottoElettronico(funz, $"{textBox1.Text}", $"{textBox2.Text}", $"{textBox3.Text}", $"{textBox4.Text}", float.Parse(textBox5.Text));
+                    Prodotto p = new ProdottoElettronico(funz, $"{textBox1.Text}", $"{textBox2.Text}", $"{textBox3.Text}", $"{textBox4.Text}", float.Parse(textBox5.Text));
+                    lista.Add(p);
 
-                    prezzino += prod[contRapid].Prezzo;
-                    prezzinoscontino += prod[contRapid].getSconto();
+                    prezzino += p.Prezzo;
+                    prezzinoscontino += p.getSconto();
+
+                    carrello.Aggiungi(p);
                 }
 
                 if (Convert.ToString(comboBox1.SelectedItem) == "Cancelleria (Foglio di Carta)" && textBox6.Text != String.Empty)
                 {
                     string gramm = textBox6.Text;
 
-                    prod[contRapid] = new ProdottoElettronico(gramm, $"{textBox1.Text}", $"{textBox2.Text}", $"{textBox3.Text}", $"{textBox4.Text}", float.Parse(textBox5.Text));
+                    Prodotto p = new ProdottoElettronico(gramm, $"{textBox1.Text}", $"{textBox2.Text}", $"{textBox3.Text}", $"{textBox4.Text}", float.Parse(textBox5.Text));
+                    lista.Add(p);
 
-                    prezzino += prod[contRapid].Prezzo;
-                    prezzinoscontino += prod[contRapid].getSconto();
+                    prezzino += p.Prezzo;
+                    prezzinoscontino += p.getSconto();
+
+                    carrello.Aggiungi(p);
                 }
 
                 label7.Text = $"PREZZO: {prezzino}";
                 label8.Text = $"PREZZO SCONTATO: {prezzinoscontino}";
-
-                carrello.Aggiungi(prod[contRapid]);
-                contRapid++;
             }
             else
             {
@@ -144,6 +153,7 @@ namespace E_Commerce2IlRitorno
                 for (int i = 0; i < listView1.SelectedItems.Count; i++)
                 {
                     Prodotto p = CreaProdTemp(listView1.SelectedItems[i].SubItems[0].Text, listView1.SelectedItems[i].SubItems[1].Text, listView1.SelectedItems[i].SubItems[2].Text, listView1.SelectedItems[i].SubItems[3].Text, float.Parse(listView1.SelectedItems[i].SubItems[4].Text));
+                    lista.Remove(p);
                     carrello.Rimuovi(p);
                 }
                 Form1_Load(sender, e);
@@ -153,6 +163,7 @@ namespace E_Commerce2IlRitorno
         private void button2_Click(object sender, EventArgs e)
         {
             carrello.Svuota();
+            lista.Clear();
             Form1_Load(sender, e);
         }
 
@@ -165,11 +176,10 @@ namespace E_Commerce2IlRitorno
         public static void StampaElementi(ListView listino, Carrello carr)
         {
             listino.Items.Clear();
-            Prodotto[] prod = carr.Prodotti;
 
             for (int i=0; i<carr.currentLenght; i++)
             {
-                string[] temp = prod[i].ToString().Split(';');
+                string[] temp = carr.Prodotti[i].ToString().Split(';');
                 ListViewItem item = new ListViewItem(temp);
                 listino.Items.Add(item);
             }

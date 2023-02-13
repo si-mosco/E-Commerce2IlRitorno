@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace E_Commerce2IlRitorno
 {
-    public class Prodotto
+    public class Prodotto : IEquatable<Prodotto>, IComparable<Prodotto>
     {
         //ATTRIBUTI
         private string _id, _nome, _produttore, _descrizione;
@@ -140,7 +140,16 @@ namespace E_Commerce2IlRitorno
         //ToString
         public virtual string ToString()
         {
-            return Id + ";" + Nome + ";" + Descrizione + ";" + Prezzo;
+            return Id + ";" + Nome + ";" + Produttore + ";" + Descrizione + ";" + Prezzo + ";";
+        }
+
+        //Compare
+        public int CompareTo(Prodotto p)
+        {
+            if (p == null)
+                return 1;
+            else
+                return Id.CompareTo(p.Id);
         }
 
         public virtual double getSconto()
