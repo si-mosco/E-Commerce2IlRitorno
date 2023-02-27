@@ -12,7 +12,7 @@ namespace E_Commerce2IlRitorno
         private const int MAXCARR = 999;
         private string _id;
         public int currentLenght;
-        private Prodotto[] _prod = new Prodotto[MAXCARR];
+        private List<Prodotto> lista = new List<Prodotto>();
 
         //set e get mediante properties
 
@@ -38,7 +38,7 @@ namespace E_Commerce2IlRitorno
                 Prodotto[] p = new Prodotto[currentLenght];
                 for (int i = 0; i < currentLenght; i++)
                 {
-                    p[i] = _prod[i];
+                    p[i] = lista[i];
                 }
                 return p;
             }
@@ -46,7 +46,7 @@ namespace E_Commerce2IlRitorno
             {
                 for (int i = 0; i < currentLenght; i++)
                 {
-                    _prod[i] = value[i];
+                    lista[i] = value[i];
                 }
             }
         }
@@ -63,11 +63,11 @@ namespace E_Commerce2IlRitorno
         {
             Id = c.Id;
             currentLenght = c.currentLenght;
-            for (int i = 0; i < c._prod.Length; i++)
+            for (int i = 0; i < c.lista.Count; i++)
             {
-                if (c._prod[i] != null)
+                if (c.lista[i] != null)
                 {
-                    _prod[i] = c._prod[i].Clone();
+                    lista[i] = c.lista[i].Clone();
                 }
             }
         }
@@ -81,8 +81,8 @@ namespace E_Commerce2IlRitorno
         public void Svuota()
         {
             currentLenght = 0;
-            for (int i = 0; i < _prod.Length; i++)
-                _prod[i] = null;
+            for (int i = 0; i < lista.Count; i++)
+                lista[i] = null;
         }
         public void Aggiungi(Prodotto p)
         {
@@ -99,7 +99,7 @@ namespace E_Commerce2IlRitorno
 
                     if (r.Data > DateTime.Today)
                     {
-                        _prod[currentLenght] = p;
+                        lista[currentLenght] = p;
                         ++currentLenght;
                     }
                 }
@@ -114,7 +114,7 @@ namespace E_Commerce2IlRitorno
                 {
                     ProdottoElettronico r = (ProdottoElettronico)p;
 
-                    _prod[currentLenght] = p;
+                    lista[currentLenght] = p;
                     ++currentLenght;
                 }
                 catch
@@ -128,7 +128,7 @@ namespace E_Commerce2IlRitorno
                 {
                     Penna r = (Penna)p;
 
-                    _prod[currentLenght] = p;
+                    lista[currentLenght] = p;
                     ++currentLenght;
                 }
                 catch
@@ -142,7 +142,7 @@ namespace E_Commerce2IlRitorno
                 {
                     FogliCarta r = (FogliCarta)p;
 
-                    _prod[currentLenght] = p;
+                    lista[currentLenght] = p;
                     ++currentLenght;
                 }
                 catch
@@ -152,7 +152,7 @@ namespace E_Commerce2IlRitorno
             }
             else if (p != null)
             {
-                _prod[currentLenght] = p;
+                lista[currentLenght] = p;
                 ++currentLenght;
             }
             else
@@ -161,7 +161,7 @@ namespace E_Commerce2IlRitorno
 
         private int GetNumProdotti()
         {
-            if (currentLenght != _prod.Length)
+            if (currentLenght != lista.Count)
                 return currentLenght;
             else
                 throw new Exception("Il carrello è pieno");
@@ -171,7 +171,7 @@ namespace E_Commerce2IlRitorno
         {
             for (int i = 0; i < currentLenght; i++)
             {
-                if (_prod[i].Equals(q))
+                if (lista[i].Equals(q))
                     return i;
             }
             return -1;
@@ -181,10 +181,10 @@ namespace E_Commerce2IlRitorno
         {
             if (Esiste(p) != -1)
             {
-                for (int i = Esiste(p); i < _prod.Length - 1; i++)
-                    _prod[i] = _prod[i + 1];
+                for (int i = Esiste(p); i < lista.Count - 1; i++)
+                    lista[i] = lista[i + 1];
 
-                _prod[_prod.Length - 1] = null;
+                lista[lista.Count - 1] = null;
 
                 --currentLenght;
 
